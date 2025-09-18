@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header>
+    <h1>{{ title }}</h1>
+    <nav>
+      <a class="btn" href="/docs">Docs</a>
+    </nav>
+  </header>
+  <div class="container">
+    <form class="card row" method="get" action="/">
+      <div>
+        <label class="small">Workflow</label>
+        <input type="text" name="workflow_name" value="{{ filters.get('workflow_name','') }}" placeholder="Nome do workflow">
+      </div>
+      <div>
+        <label class="small">Resolvido</label>
+        <select name="resolved">
+          <option value="">Todos</option>
+          <option value="false" {% if filters.get('resolved')=='false' %}selected{% endif %}>Não</option>
+          <option value="true" {% if filters.get('resolved')=='true' %}selected{% endif %}>Sim</option>
+        </select>
+      </div>
+      <div>
+        <label class="small">Busca</label>
+        <input type="text" name="q" value="{{ filters.get('q','') }}" placeholder="Texto no erro">
+      </div>
+      <div style="align-self:end">
+        <button type="submit">Filtrar</button>
+      </div>
+    </form>
+
+    {% if events %}
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Workflow</th>
+            <th>Mensagem</th>
+            <th>Quando</th>
+            <th>Status</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for e in events %}
+          <tr>
+            <td>#{{ e.id }}</td>
+            <td>{{ e.workflow_name or '—' }}</td>
+            <td title="{{ e.error_message }}">{{ e.error_message[:80] }}{% if e.error_message|length>80 %}…{% endif %}</td>
+            <td>{{ e.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>
+              {% if e.resolved %}
+                <span class="badge">Resolvido</span>
+              {% else %}
+                <span class="badge">Aberto</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if not e.resolved %}
+              <form method="post" action="/resolve/{{ e.id }}">
+                <button>Marcar resolvido</button>
+              </form>
+              {% else %}
+              —
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="6">
+              <details>
+                <summary>Detalhes</summary>
+                <div class="small">Node: {{ e.node or '—' }} | Run: {{ e.run_id or '—' }} | Tentativa: {{ e.attempt or 0 }}</div>
+                {% if e.error_stack %}
+                <h4>Stack</h4>
+                <pre>{{ e.error_stack }}</pre>
+                {% endif %}
+                {% if e.payload %}
+                <h4>Payload</h4>
+                <pre>{{ e.payload | tojson(indent=2) }}</pre>
+                {% endif %}
+              </details>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <div class="card empty">Nenhum evento encontrado.</div>
+    {% endif %}
+  </div>
+  <footer>
+    FlowWatch — FastAPI + SQLite
+  </footer>
+</body>
+</html>
