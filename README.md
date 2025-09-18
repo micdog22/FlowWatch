@@ -1,4 +1,4 @@
-# FlowWatch — Monitor de Erros do n8n (FastAPI + SQLite)
+# FlowWatch - Monitor de Erros do n8n (FastAPI + SQLite)
 
 FlowWatch é um serviço leve para receber webhooks de erro do n8n, registrar ocorrências em banco local (SQLite) e exibir um painel simples para investigação e resolução. Ideal para quem usa n8n self‑hosted e quer rastrear exceções, tempos, tentativas e payloads problemáticos.
 
