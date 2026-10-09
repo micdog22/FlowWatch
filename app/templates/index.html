@@ -53,7 +53,7 @@
           {% for e in events %}
           <tr>
             <td>#{{ e.id }}</td>
-            <td>{{ e.workflow_name or '—' }}</td>
+            <td>{{ e.workflow_name or '-' }}</td>
             <td title="{{ e.error_message }}">{{ e.error_message[:80] }}{% if e.error_message|length>80 %}…{% endif %}</td>
             <td>{{ e.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
             <td>
@@ -69,7 +69,7 @@
                 <button>Marcar resolvido</button>
               </form>
               {% else %}
-              —
+              -
               {% endif %}
             </td>
           </tr>
@@ -77,7 +77,7 @@
             <td colspan="6">
               <details>
                 <summary>Detalhes</summary>
-                <div class="small">Node: {{ e.node or '—' }} | Run: {{ e.run_id or '—' }} | Tentativa: {{ e.attempt or 0 }}</div>
+                <div class="small">Node: {{ e.node or '-' }} | Run: {{ e.run_id or '-' }} | Tentativa: {{ e.attempt or 0 }}</div>
                 {% if e.error_stack %}
                 <h4>Stack</h4>
                 <pre>{{ e.error_stack }}</pre>
@@ -98,7 +98,7 @@
     {% endif %}
   </div>
   <footer>
-    FlowWatch — FastAPI + SQLite
+    FlowWatch (FastAPI + SQLite)
   </footer>
 </body>
 </html>

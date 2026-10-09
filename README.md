@@ -114,11 +114,11 @@ docker compose up --build
 
 ## Rotas Principais
 
-- `GET /` — Painel HTML com listagem e filtros.
-- `POST /webhooks/n8n?token=...` — Recebe eventos. Requer token.
-- `POST /resolve/{id}` — Marca um evento como resolvido.
-- `GET /api/events` — Lista eventos em JSON (paginado, filtros).
-- `GET /health` — Status do serviço.
+- `GET /`: painel HTML com listagem e filtros.
+- `POST /webhooks/n8n?token=...`: recebe eventos. Requer token.
+- `POST /resolve/{id}`: marca um evento como resolvido.
+- `GET /api/events`: lista eventos em JSON (paginado, filtros).
+- `GET /health`: status do serviço.
 
 Veja os parâmetros no Swagger em `GET /docs`.
 
@@ -155,7 +155,7 @@ Use `.env.example` como base.
 
 ## Licença
 
-MIT — veja o arquivo `LICENSE`.
+MIT. Veja o arquivo [LICENSE](LICENSE).
 
 ---
 
